@@ -1,34 +1,40 @@
 # chapter 2 regression and model validation
 
-*Describe the work you have done this week and summarize your learning.*
 
-- Describe your work and results clearly. 
-- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods.
-- Assume the reader has no previous knowledge of your data or the more advanced methods you are using.
-
-*Read the file "learning2014.txt produced from the data wrangling step. The data from includes 166 observations and 7 variables. This dataset reflects the survey of approaches of learning and how they effect the exam points of individuals.*
+*1. Read the file "learning2014.txt produced from the data wrangling step. The data from includes 166 observations and 7 variables after filtering and combining. This dataset reflects the survey of approaches of learning and also includes the exam points of individuals.*
 ```{r}
 date()
 learning2014<-read.table("learning2014.txt",header = TRUE,sep = " ")
 str(learning2014)
 ```
 
-*a graphical overview of the data. The overview is showing how two of the variables related to each other.
+*2. a graphical overview of the data. The overview is showing how two of the variables correlated with each other. Roughly all the variables are normally distributed except age and gender. Age distribution is skewed to the young age and the there are different numbers of male and female. Exam points are highly correlates with attitude. *
 ```{r}
 library(GGally)
 library(ggplot2)
-# from this overview, we can see that the age of the individuals are skewed to younger individuals, and attitute and 
+# from this overview, we can see that the age of the individuals are skewed to younger individuals, and attitude and 
 p <- ggpairs(learning2014, mapping = aes(), lower = list(combo = wrap("facethist", bins = 20)))
+p
 
+```
 
-
+*3.I choose three variables and fit a linear regression model where exam points is the target variable. Attitude are statistically significant with a p value 6.31e-09. *
+```{r}
 #multiple regression with 3 variables
 my_model<-lm(points~attitude+stra+surf,data = learning2014)
 summary(my_model)
 
-# remove a variable with low statistical significance 
+```
+*4. I took out surf variable and run the liner regression again. The regression's R squared reflect 20% of my data fit the regression model.*
+```{r}
+# remove a variable with low atistical significance 
 my_model2<-lm(points~attitude+stra,data = learning2014)
 summary(my_model2)
+
+```
+
+*5.diagnostic plots. based on the residuals and fitted plot, it shows that the size of error didn't depend on the explanatory variables. Based on the residuals and leverage plot, there is no observation have an unusually high impact. Based on the qq plot, it indicated that the errros of the model are normally distributed *
+```{r}
 par(mfrow=c(2,2))
 plot(my_model2,which = c(1,2,5))
 ```

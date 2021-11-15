@@ -15,6 +15,7 @@ surface_columns<-select(learning2014,one_of(surface_questions))
 learning2014$surf<-rowMeans(surface_columns)
 strategic_columns <- select(learning2014,one_of(strategic_questions))
 learning2014$stra<-rowMeans(strategic_columns)
+
 # choose a handful of columns to keep
 keep_columns <- c("gender","Age","attitude", "deep", "stra", "surf", "Points")
 lrn14<-select(learning2014,one_of(keep_columns))
@@ -22,4 +23,5 @@ colnames(lrn14)
 colnames(lrn14)[2]<-"age"
 colnames(lrn14)[7]<-"points"
 lrn14<-filter(lrn14,points>0)
-write.csv(lrn14,"learning2014.txt")
+write.table(lrn14,"learning2014.txt",quote = TRUE, sep = " ",row.names = FALSE,
+          col.names = T)
