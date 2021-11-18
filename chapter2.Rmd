@@ -12,8 +12,11 @@ str(learning2014)
 ```{r}
 library(GGally)
 library(ggplot2)
+library(plyr)
+count(learning2014$gender)
+summary(learning2014)
 # from this overview, we can see that the age of the individuals are skewed to younger individuals, and attitude and 
-p <- ggpairs(learning2014, mapping = aes(), lower = list(combo = wrap("facethist", bins = 20)))
+p <- ggpairs(learning2014, mapping = aes(col=gender,alpha=0.3), lower = list(combo = wrap("facethist", bins = 20)))
 p
 
 ```
@@ -25,11 +28,17 @@ my_model<-lm(points~attitude+stra+surf,data = learning2014)
 summary(my_model)
 
 ```
-*4. I took out surf variable and run the liner regression again. The regression's R squared reflect 20% of my data fit the regression model.*
+*4. I took out surf variable and run the liner regression again. The regression's R squared reflect 20% of my data fit the regression mode.*
 ```{r}
 # remove a variable with low atistical significance 
 my_model2<-lm(points~attitude+stra,data = learning2014)
 summary(my_model2)
+#scatter plot of exma point and attitude
+p <- ggplot(learning2014, aes(x = attitude, y = points, col = gender)) + geom_point() + geom_smooth(method = "lm") + ggtitle("points ~ attitude model")
+p
+# if I remove both stra and surf 
+my_model3<-lm(points~attitude,data = learning2014)
+summary(my_model3)
 
 ```
 
