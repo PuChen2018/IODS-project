@@ -1,0 +1,10 @@
+# chapter3 logistic regression
+*1.This is a dataset about the students achievement in secondary education of two Portuguese schools. It include the students background information and their performance in two subject-math and Portuguese.The dataset including 370 students.*
+```{r}
+alc_cvs<-read.csv(url("https://github.com/rsund/IODS-project/raw/master/data/alc.csv"))
+colnames(alc_cvs)
+str(alc_cvs)
+dim(alc_cvs)
+```
+*2.
+```{r}
